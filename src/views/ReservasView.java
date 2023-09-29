@@ -18,7 +18,6 @@ import modelo.Reserva;
 import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import java.text.Format;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.awt.event.MouseAdapter;
@@ -43,6 +42,7 @@ public class ReservasView extends JFrame {
 	int xMouse, yMouse;
 	private JLabel labelExit;
 	private JLabel labelAtras;
+	private JLabel lblValorSimbolo;
 
 	private ReservaControlador reservaControl;
 	/**
@@ -259,6 +259,14 @@ public class ReservasView extends JFrame {
 		txtFechaEntrada.setDateFormatString("yyyy-MM-dd");
 		txtFechaEntrada.setFont(new Font("Roboto", Font.PLAIN, 18));
 		panel.add(txtFechaEntrada);
+		
+		lblValorSimbolo = new JLabel();
+		lblValorSimbolo.setVisible(false);
+		lblValorSimbolo.setBounds(121, 332, 17, 25);
+		lblValorSimbolo.setForeground(SystemColor.textHighlight);
+		lblValorSimbolo.setFont(new Font("Roboto", Font.BOLD, 17));
+		
+		panel.add(lblValorSimbolo);
 
 		txtFechaSalida = new JDateChooser();
 		txtFechaSalida.getCalendarButton().setIcon(new ImageIcon(ReservasView.class.getResource("/imagenes/icon-reservas.png")));
@@ -331,7 +339,7 @@ public class ReservasView extends JFrame {
 			 Reserva reserva = new Reserva(fechaE, fechaS, txtValor.getText(), txtFormaPago.getSelectedItem().toString());
 			 reservaControl.guardar(reserva);
 			 
-			 RegistroHuesped registro = new RegistroHuesped();
+			 RegistroHuesped registro = new RegistroHuesped(reserva.getId());
 			 registro.setVisible(true);
 			 dispose();
 		}else {
@@ -357,8 +365,12 @@ public class ReservasView extends JFrame {
 				 inicio.add(Calendar.DATE, 1);
 			 }
 			 valor = dias * noche;
-			 txtValor.setText("S/. "+valor);
+			 txtValor.setText("S/"+valor);
 		 }
+	}
+	
+	public void limpiarValor(){
+		txtValor.setText("");
 	}
 	
 	
